@@ -1,0 +1,81 @@
+Hi Everyone,
+
+This is Sample project blog on "How to Launch and connect to an Amazon EC2 MAC instance"
+
+Introduction:-
+
+Amazon EC2 Mac instances enable customers to run on-demand macOS workloads in the cloud for the first time, extending the flexibility, scalability, and cost benefits of AWS to all Apple developers. 
+
+With EC2 Mac instances, developers creating apps for iPhone, iPad, Mac, Apple Watch, Apple TV, and Safari can provision and access macOS environments within minutes, dynamically scale capacity as needed, and benefit from AWS’s pay-as-you-go pricing.
+
+In this tutorial, I will show how to launch and connect to an Amazon EC2 Mac instance by allocating an Amazon EC2 Dedicated Host. 
+
+Launching a EC2 Mac instance is a two step process where you first allocate a mac1 Dedicated Host, and then launch a mac1.metal instance onto the Dedicated Host.
+
+There is a 24-hour minimum allocation duration that is applicable to the Dedicated Host itself, not to your mac1.metal instance. 
+
+You can launch and terminate mac1.metal instances as you want on that mac1 Dedicated Host, for example, to switch between a macOS Catalina-based AMI and a macOS Big Sur-based AMI. 
+
+However, once you allocate a mac1 Dedicated Host, you cannot release it until 24 hours later (the minimum lease period is 24 hours for the physical server). Once past those initial 24 hours, you can release the host anytime you want. 
+
+This time period is to comply with the macOS Software Licensing Agreement. As with all Amazon EC2 Dedicated Hosts, you pay per second for the entire duration that Dedicated Host is allocated to your account. 
+
+Instances launched or terminated on that Dedicated Host have no separate charge. Since the minimum host allocation duration for mac1 Dedicated Hosts is 24 hours, by definition, you pay for a minimum 24 hours.
+
+
+Rquirements:-
+
+AWS Experience -> Beginner
+Time to Complete -> 10 minutes
+Cost to Complete -> Approx. $26 (Dollars)
+Services Used -> Amazon EC2 Mac Instances
+                 Amazon EC2 Dedicated Hosts
+ 
+
+Implementation:-
+
+Step 1 : Allocate a mac1 Dedicated Host in your account
+1.1 — Sign in to the "AWS Management Console", and open the "EC2 Dashboard". Choose "Dedicated Hosts", then choose "Allocate Dedicated Host".
+1.2 — On the "Allocate Dedicated Host" page, make the following selections:
+    > For Name tag, type "EC2 Mac Dedicated Host".
+    > For Instance family, choose "mac1".
+    > For Support multiple instance types, "clear the Enable check box".
+    > For Instance type, choose "mac1.metal".
+    > For Availability Zone, choose "any zone in your Region".
+Keep the remaining default selections and choose "Allocate".
+Once allocated, the Dedicated Host appears with a status of "Available".
+
+Step 2 : Launch a mac1.metal instance
+2.1 — On the "EC2 Dashboard", choose "Launch Instance".
+2.2 — On the Choose "AMI" page, select the "macOS Catalina (10.15.7) AMI".
+2.3 — On the Choose "Instance Type" page, keep the default selection of "mac1.metal instance" and choose "Next: Configure Instance Details".
+2.4 — On the Configure "Instance Details" page, for "Host", choose the "Dedicated Host" you allocated in Step 1. For the remaining configuration details, make any selections you prefer. Then, choose "Next: Add Storage".
+2.5 — On the "Add Storage" page, choose the "Size (GiB)" cell and increase the volume to "250 GB". Then, choose "Next: Add Tags".
+2.6 — On the "Add Tags" page, optionally add any Key:Value tags to your instance. Then, choose "Next: Configure Security Group".
+2.7 — On the "Configure Security Group page", make the following selections:
+    > For "Assign a security group", choose "Create a new security group".
+    > For "Security group name", type a descriptive name, such as ssh into mac1.metal.
+    > For "Description", optionally add a description.
+    > For "Type", choose "SSH".
+    > For "Source", choose "My IP".
+Then, choose "Review and Launch".
+2.8 — On the "Review" page, review your selections and verify that the "Host ID" matches the Dedicated Host you created in Step 1. Then, choose "Launch".
+2.9 — On the "Select an existing key pair or create a new key pair" dialog, verify your existing key pair (if you do not have a key pair, select the option to create a new key pair). Then, select the acknowlegement check box and choose "Launch Instances".
+2.10 — On the "Launch Status" page, choose the "instance ID" to return to the "Instances" section of the "EC2 Dashboard".
+2.11 — On the "Instances" page, wait for the "Status Check" column of your instance to show 2/2 checks passed before continuing to Step 3.
+
+Step 3 : Connect to your MAC instance over SSH
+3.1  — On the "EC2 Dashboard", select your "EC2 Mac Instance" and choose "Connect".
+3.2  — On the "Connect to an instance" dialog, choose "SSH client". Follow the instructions in the dialog for SSH client to connect to your mac1.metal instance.
+Once connected, you will have command line access to your mac1.metal instance.
+
+Step 4 : Clean up
+4.1 — "Delete the Amazon EC2 Mac instance":
+    > On the "EC2 Dashboard", choose "Instances", then choose "Instances (Running)".
+    > Select the mac1.metal instance you created for this tutorial.
+    > Choose "Instance state", then choose "Terminate instance".
+4.2 — "Delete the Dedicated Host":
+Note: You cannot release the host until 24 hours have passed since you first allocated the host.
+    > On the "EC2 Dashboard", choose "Dedicated Hosts".
+    > Select the Dedicated Host you created for this tutorial.
+    > Choose "Actions", then choose "Release host".
