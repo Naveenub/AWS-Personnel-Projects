@@ -21,3 +21,4 @@ However, once you allocate a mac1 Dedicated Host, you cannot release it until 24
 This time period is to comply with the macOS Software Licensing Agreement. As with all Amazon EC2 Dedicated Hosts, you pay per second for the entire duration that Dedicated Host is allocated to your account. 
 
 Instances launched or terminated on that Dedicated Host have no separate charge. Since the minimum host allocation duration for mac1 Dedicated Hosts is 24 hours, by definition, you pay for a minimum 24 hours.
+![image](https://github.com/user-attachments/assets/81b13e2d-5bee-4465-8d83-bd0231cb8389)
